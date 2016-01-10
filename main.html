@@ -32,7 +32,8 @@
           <div class="col-md-3">
             <h3>Locations</h3>
             <div data-bind="foreach: locationsArray">
-              <span data-bind="text: name"></span>
+              <a href="#" data-bind="text: name, click: $parent.setLoc"></a>
+<!--               <span data-bind="text: name"></span> -->
               <br>
             </div>
           </div>

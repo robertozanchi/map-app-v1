@@ -1,3 +1,5 @@
+var markersArray = []; // Store all the markers
+
 // Model: hard coded location data
 var locationsModel = [
 	{
@@ -11,6 +13,12 @@ var locationsModel = [
 	"lat": '40.772874',
 	"lng": '-73.983479',
 	"description": 'Multi-venue complex home to many prominent groups like Metropolitan Opera & New York City Ballet.'
+	},
+	{
+	"name": 'Grand Central Terminal',
+	"lat": '40.7528',
+	"lng": '-73.9765',
+	"description": 'Railroad terminal at 42nd Street and Park Avenue in Midtown Manhattan.'
 	}
 ];
 
@@ -22,7 +30,7 @@ window.onload = function () {
 function LoadMap() {
 	var mapOptions = {
 		center: new google.maps.LatLng(40.767513, -73.985109),
-		zoom: 15,
+		zoom: 14,
 		mapTypeId: google.maps.MapTypeId.ROADMAP
 	};
 
@@ -40,6 +48,7 @@ function LoadMap() {
 			title: data.title,
 			animation: google.maps.Animation.DROP
 		});
+		markersArray.push(marker);
 
 		//Attach click event to the marker.
 		(function (marker, data) {
@@ -49,6 +58,7 @@ function LoadMap() {
 			infoWindow.setContent("<b>" + data.name + "</b><br>" + "<div style = 'width:200px;min-height:60px'>" + data.description + "</div>");
 			infoWindow.open(map, marker);
 			toggleBounce();
+			// marker.setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png')
 
 			function toggleBounce() {
 				if (marker.getAnimation() !== null) {
@@ -71,6 +81,18 @@ function LoadMap() {
 //     //
 // };
 
+function toggleBounce(marker) {
+	if (marker.getAnimation() !== null) {
+		marker.setAnimation(null);
+	} else {
+		marker.setAnimation(google.maps.Animation.BOUNCE);
+		setTimeout(stopBounce, 1400);
+		function stopBounce(){
+		marker.setAnimation(null);
+					}
+				}
+			};
+
 // Extracts location names from model
 var LocationName = function(data) {
   this.name = ko.observable(data.name);
@@ -85,6 +107,20 @@ var ViewModel = function() {
     locationsModel.forEach(function(locationItem){
     	self.locationsArray.push(new LocationName(locationItem));
     });
+
+  /**
+   * Click the restaurant on the view list, show corresponding marker and open infoWindow on the map
+   */
+	this.setLoc = function(clickedLocation) {
+		var markerReference;
+		for(var k=0; k<locationsModel.length; k++) {
+			if(locationsModel[k].name == clickedLocation.name()) {
+				markerReference = markersArray[k];
+				toggleBounce(markerReference);
+				infowindow.open(map,markerReference); // Why is this not working?
+      }
+    }
+  };
 };
 
 ko.applyBindings(new ViewModel());
