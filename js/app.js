@@ -101,7 +101,7 @@ var LocationName = function(data) {
 // ViewModel
 var ViewModel = function() {
 	var self = this;
-    
+ 
     // call the Place constructor here
     self.locationsArray = ko.observableArray([]);
     locationsModel.forEach(function(locationItem){
