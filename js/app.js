@@ -114,7 +114,7 @@ var ViewModel = function() {
 	this.setLoc = function(clickedLocation) {
 		var markerReference;
 		for(var k=0; k<locationsModel.length; k++) {
-			if(locationsModel[k].name == clickedLocation.name()) {
+			if(locationsModel[k].name == clickedLocation.name) {
 				markerReference = markersArray[k];
 				toggleBounce(markerReference);
 				infoWindow.setContent("<b>" + locationsModel[k].name + "</b><br>" + "<div style = 'width:200px;min-height:60px'>" + locationsModel[k].description + "</div>");
@@ -123,13 +123,15 @@ var ViewModel = function() {
 		}
 	};
 
+	// Search functionality on location names
+	self.points = ko.observableArray(locationsModel);
 	self.query = ko.observable('');
 
-	// self.search = ko.computed(function(){
-	// 	return ko.utils.arrayFilter(self.locationsArray(), function(point){
-	// 		return point.name.toLowerCase().indexOf(self.query().toLowerCase()) >= 0;
- //    });
- //  });
+	self.search = ko.computed(function(){
+		return ko.utils.arrayFilter(self.points(), function(point){
+			return point.name.toLowerCase().indexOf(self.query().toLowerCase()) >= 0;
+    });
+  });
 
 };
 

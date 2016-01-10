@@ -25,30 +25,15 @@
       <main>
         <div class="row">
           <div class="col-md-12">
-            <h2 class="text-muted">Hell's Kitchen and Midtown</h2>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-12">
-            Search the locations on the map<br>
-<!--             <input id="s-input" class="controls" type="search" data-bind="textInput: query, valueUpdate: 'keyup'"></input>
- -->            
-<!--             <div id="listbx">
-            <h2>Sites</h2>
-            <div>
-            <ul data-bind="foreach: search()">
-              <li data-bind="text: title"></li>
-            </ul>
-            </div>
-            </div> -->
-
-          <br><br>
+            <h2 class="text-muted">Hell's Kitchen and Midtown Locations</h2>
           </div>
         </div>
         <div class="row">
           <div class="col-md-3">
-            <h3>Locations</h3>
-            <div data-bind="foreach: locationsArray">
+            Search the list<br>
+            <input id="s-input" class="controls" type="search" data-bind="textInput: query, valueUpdate: 'keyup'" placeholder="Enter location name"></input>
+            <br><br>
+            <div data-bind="foreach: search()">
               <a href="#" data-bind="text: name, click: $parent.setLoc"></a>
               <br>
             </div>
