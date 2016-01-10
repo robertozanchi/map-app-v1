@@ -1,4 +1,6 @@
 var markersArray = []; // Store all the markers
+var map;
+var infoWindow;
 
 // Model: hard coded location data
 var locationsModel = [
@@ -37,7 +39,7 @@ function LoadMap() {
 	var map = new google.maps.Map(document.getElementById("map"), mapOptions);
 
 	//Create and open InfoWindow.
-	var infoWindow = new google.maps.InfoWindow();
+	infoWindow = new google.maps.InfoWindow();
 
 	for (var i = 0; i < locationsModel.length; i++) {
 		var data = locationsModel[i];
@@ -117,7 +119,7 @@ var ViewModel = function() {
 			if(locationsModel[k].name == clickedLocation.name()) {
 				markerReference = markersArray[k];
 				toggleBounce(markerReference);
-				infowindow.open(map,markerReference); // Why is this not working?
+				infoWindow.open(map,markerReference); // Why is this not working?
       }
     }
   };
