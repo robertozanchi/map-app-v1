@@ -83,24 +83,7 @@ var ViewModel = function() {
     self.locationsArray = ko.observableArray([]);
     locationsModel.forEach(function(locationItem){
     	self.locationsArray.push(new LocationName(locationItem));
-
-  //   this.setLoc = function(clickedLoc) {
-  //   var markerReference;
-  //   for(var k=0; k<locationsModel.length; k++) {
-  //     if(locationsModel[k].name == clickedLoc.name()) {
-  //       markerReference = markers[k];
-  //       toggleBounce(markerReference);
-  //       setTimeout(
-  //         function(){
-  //           markerReference.setAnimation(null);
-  //           markerReference.setIcon(redPin);
-  //         }, 1400);
-  //     }
-  //   }
-  // };
-
-  });
-
+    });
 };
 
 ko.applyBindings(new ViewModel());
