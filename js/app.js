@@ -14,6 +14,7 @@ var locationsModel = [
 	}
 ];
 
+// Load Google map
 window.onload = function () {
 	LoadMap();
 }
@@ -70,7 +71,7 @@ function LoadMap() {
 //     //
 // };
 
-// Extracts location names from markers model
+// Extracts location names from model
 var LocationName = function(data) {
   this.name = ko.observable(data.name);
 };
