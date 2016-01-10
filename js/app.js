@@ -125,11 +125,11 @@ var ViewModel = function() {
 
 	self.query = ko.observable('');
 
-	self.search = ko.computed(function(){
-		return ko.utils.arrayFilter(self.locationsArray(), function(point){
-			return point.title.toLowerCase().indexOf(self.query().toLowerCase()) >= 0;
-    });
-  });
+	// self.search = ko.computed(function(){
+	// 	return ko.utils.arrayFilter(self.locationsArray(), function(point){
+	// 		return point.name.toLowerCase().indexOf(self.query().toLowerCase()) >= 0;
+ //    });
+ //  });
 
 };
 
