@@ -36,7 +36,7 @@ function LoadMap() {
 		mapTypeId: google.maps.MapTypeId.ROADMAP
 	};
 
-	var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+	map = new google.maps.Map(document.getElementById("map"), mapOptions);
 
 	//Create and open InfoWindow.
 	infoWindow = new google.maps.InfoWindow();
@@ -119,6 +119,7 @@ var ViewModel = function() {
 			if(locationsModel[k].name == clickedLocation.name()) {
 				markerReference = markersArray[k];
 				toggleBounce(markerReference);
+				infoWindow.setContent("<b>" + locationsModel[k].name + "</b><br>" + "<div style = 'width:200px;min-height:60px'>" + locationsModel[k].description + "</div>");
 				infoWindow.open(map,markerReference); // Why is this not working?
       }
     }
