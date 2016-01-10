@@ -17,32 +17,22 @@ body {
 }
 
 .title-super {
-	font-size: 60px;
+	font-size: 50px;
 }
 
 .title-logo {
 	margin-top: 20px;
-	font-size: 75px;
+	font-size: 50px;
 }
 
 hr {
 	border-width: 5px;
 }
 
-.fa-stop-circle {
-	font-size: 100px;
-	color: #3366ff;
-}
-
-.project-icon {
-	font-size: 385px;
-	text-shadow: 2px 2px 2px rgba(150, 150, 150, 1);
-}
-
-.fa-cogs {
-	color: #ff6600;
-}
-
 h2 {
 	margin-bottom: 20px;
+}
+
+#map{
+  min-height: 600px;
 }
