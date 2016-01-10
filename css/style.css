@@ -1,0 +1,48 @@
+body {
+	font-family: "Roboto", sans-serif;
+	color: #656561;
+	font-weight: 300;
+}
+
+.text-muted {
+	color: #bcbbbb;
+}
+
+.text-thin {
+	font-weight: 100;
+}
+
+.text-center {
+	margin-bottom: 20px;
+}
+
+.title-super {
+	font-size: 60px;
+}
+
+.title-logo {
+	margin-top: 20px;
+	font-size: 75px;
+}
+
+hr {
+	border-width: 5px;
+}
+
+.fa-stop-circle {
+	font-size: 100px;
+	color: #3366ff;
+}
+
+.project-icon {
+	font-size: 385px;
+	text-shadow: 2px 2px 2px rgba(150, 150, 150, 1);
+}
+
+.fa-cogs {
+	color: #ff6600;
+}
+
+h2 {
+	margin-bottom: 20px;
+}
