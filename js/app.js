@@ -1,5 +1,5 @@
 // Model: hard coded location data
-var markers = [
+var locationsModel = [
 	{
 	"name": 'Totto Ramen',
 	"lat": '40.764777',
@@ -30,21 +30,36 @@ function LoadMap() {
 	//Create and open InfoWindow.
 	var infoWindow = new google.maps.InfoWindow();
 
-	for (var i = 0; i < markers.length; i++) {
-		var data = markers[i];
+	for (var i = 0; i < locationsModel.length; i++) {
+		var data = locationsModel[i];
 		var myLatlng = new google.maps.LatLng(data.lat, data.lng);
 		var marker = new google.maps.Marker({
 			position: myLatlng,
 			map: map,
-			title: data.title
+			title: data.title,
+			animation: google.maps.Animation.DROP
 		});
 
 		//Attach click event to the marker.
 		(function (marker, data) {
+
 			google.maps.event.addListener(marker, "click", function (e) {
 			//Wrap the content inside an HTML DIV in order to set height and width of InfoWindow.
 			infoWindow.setContent("<b>" + data.name + "</b><br>" + "<div style = 'width:200px;min-height:60px'>" + data.description + "</div>");
 			infoWindow.open(map, marker);
+			toggleBounce();
+
+			function toggleBounce() {
+				if (marker.getAnimation() !== null) {
+					marker.setAnimation(null);
+				} else {
+					marker.setAnimation(google.maps.Animation.BOUNCE);
+					setTimeout(stopBounce, 1400);
+					function stopBounce(){
+						marker.setAnimation(null);
+					}
+				}
+			};
 			});
 		})(marker, data);
 	}
@@ -66,8 +81,24 @@ var ViewModel = function() {
     
     // call the Place constructor here
     self.locationsArray = ko.observableArray([]);
-    markers.forEach(function(locationItem){
+    locationsModel.forEach(function(locationItem){
     	self.locationsArray.push(new LocationName(locationItem));
+
+  //   this.setLoc = function(clickedLoc) {
+  //   var markerReference;
+  //   for(var k=0; k<locationsModel.length; k++) {
+  //     if(locationsModel[k].name == clickedLoc.name()) {
+  //       markerReference = markers[k];
+  //       toggleBounce(markerReference);
+  //       setTimeout(
+  //         function(){
+  //           markerReference.setAnimation(null);
+  //           markerReference.setIcon(redPin);
+  //         }, 1400);
+  //     }
+  //   }
+  // };
+
   });
 
 };
