@@ -103,16 +103,14 @@ var LocationName = function(data) {
 // ViewModel
 var ViewModel = function() {
 	var self = this;
- 
-    // call the Place constructor here
-    self.locationsArray = ko.observableArray([]);
-    locationsModel.forEach(function(locationItem){
-    	self.locationsArray.push(new LocationName(locationItem));
-    });
 
-  /**
-   * Click the restaurant on the view list, show corresponding marker and open infoWindow on the map
-   */
+	// Array of names of all locations
+	self.locationsArray = ko.observableArray([]);
+	locationsModel.forEach(function(locationItem){
+		self.locationsArray.push(new LocationName(locationItem));
+	});
+
+	// Click a place on the list, show marker and open infoWindow on the map
 	this.setLoc = function(clickedLocation) {
 		var markerReference;
 		for(var k=0; k<locationsModel.length; k++) {
@@ -120,10 +118,19 @@ var ViewModel = function() {
 				markerReference = markersArray[k];
 				toggleBounce(markerReference);
 				infoWindow.setContent("<b>" + locationsModel[k].name + "</b><br>" + "<div style = 'width:200px;min-height:60px'>" + locationsModel[k].description + "</div>");
-				infoWindow.open(map,markerReference); // Why is this not working?
-      }
-    }
-  };
+				infoWindow.open(map,markerReference);
+			}
+		}
+	};
+
+	self.query = ko.observable('');
+
+	self.search = ko.computed(function(){
+		return ko.utils.arrayFilter(self.locationsArray(), function(point){
+			return point.title.toLowerCase().indexOf(self.query().toLowerCase()) >= 0;
+    });
+  });
+
 };
 
 ko.applyBindings(new ViewModel());
