@@ -78,11 +78,6 @@ function LoadMap() {
 	}
 }
 
-// // Place constructor
-// var Place = function(data) {
-//     //
-// };
-
 function toggleBounce(marker) {
 	if (marker.getAnimation() !== null) {
 		marker.setAnimation(null);
