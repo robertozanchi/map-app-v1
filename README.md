@@ -15,3 +15,6 @@ http://codepen.io/JohnMav/pen/OVEzWM/
 Foursquare API
 https://developer.foursquare.com/docs/venues/search
 http://stackoverflow.com/questions/9090743/foursquare-getting-and-displaying-venues-in-browser
+
+JavaScript
+http://stackoverflow.com/questions/617036/appending-to-an-object

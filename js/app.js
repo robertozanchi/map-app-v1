@@ -138,25 +138,16 @@ var ViewModel = function() {
 			return point.name.toLowerCase().indexOf(self.query().toLowerCase()) >= 0;
     });
   });
-
 };
 
 ko.applyBindings(new ViewModel());
 
-// <script>
-// $.getJSON(foursquareUrl,
-//     function(data){
-//         $.each(data.response.venues, function(i,venues){
-//             content = '<p>' + venues.name + '</p>';
-//             $(content).appendTo("#names");
-//        });
-// });
-// </script>
-
+// Put into a function!
 // Foursquare query with error handling
 $.getJSON(foursquareUrl)
 	.done(function(data){
 		$.each(data.response.venues, function(i,venues){
+			// Change this to push new elements to locationsModel
 			content = '<p>' + venues.name + '</p>';
 			$(content).appendTo("#names");
 		});
@@ -165,4 +156,10 @@ $.getJSON(foursquareUrl)
 	}
 	);
 
+// var alerts = [ 
+//     {num : 1, app:'helloworld',message:'message'},
+//     {num : 2, app:'helloagain',message:'another message'} 
+// ]
+// And then to add one, just use push:
 
+// alerts.push({num : 3, app:'helloagain_again',message:'yet another message'});
