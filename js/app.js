@@ -150,7 +150,7 @@ $.getJSON(foursquareUrl)
 			// Change this to push new elements to locationsModel
 			// content = '<p>' + venues.name + '</p>';
 			// $(content).appendTo("#names");
-			locationsModel.push({name: venues.name, lat: String(venues.lat), lng: String(venues.lng), description: 'A Foursquare search result'});
+			locationsModel.push({name: venues.name, lat: String(venues.location.lat), lng: String(venues.location.lng), description: 'A Foursquare search result'});
 		});
 	}).fail(function(jqxhr, textStatus, error){
 		alert('Fail to connect to Foursquare: ' + textStatus + ' ' + jqxhr.status + ' ' + error);
