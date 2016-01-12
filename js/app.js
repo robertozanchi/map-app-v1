@@ -6,7 +6,7 @@ var CLIENT_ID = 'SKBOEODGEQYE2XC45C10DPD11GFYH2AZXNXBSJCQMYHAJZBL'; // Client id
 var CLIENT_SECRET = 'LFIXWJ0XVTJHZVER3CWVZWK2MJSICM342AEXV3NANQIEYWLD'; // Client secret for connecting Foursquare API
 var foursquareLocation = '40.8,-74';
 var foursquareQuery = 'coffee';
-var foursquareQueryLimit = '10';
+var foursquareQueryLimit = '5';
 var foursquareUrl = 'https://api.foursquare.com/v2/venues/search?client_id=' + // Base url for connecting Foursquare API
 												CLIENT_ID + '&client_secret=' + CLIENT_SECRET +
 												'&v=20140806&ll=' + foursquareLocation +'&query=' + foursquareQuery + '&limit=' + foursquareQueryLimit;
@@ -35,7 +35,7 @@ var locationsModel = [
 	}
 ];
 
-// Load Google map
+// Load Google map asynchronously
 window.onload = function () {
 	LoadMap();
 }
@@ -144,11 +144,25 @@ var ViewModel = function() {
 ko.applyBindings(new ViewModel());
 
 // <script>
-$.getJSON(foursquareUrl,
-    function(data) {
-        $.each(data.response.venues, function(i,venues){
-            content = '<p>' + venues.name + '</p>';
-            $(content).appendTo("#names");
-       });
-});
+// $.getJSON(foursquareUrl,
+//     function(data){
+//         $.each(data.response.venues, function(i,venues){
+//             content = '<p>' + venues.name + '</p>';
+//             $(content).appendTo("#names");
+//        });
+// });
 // </script>
+
+// Foursquare query with error handling
+$.getJSON(foursquareUrl)
+	.done(function(data){
+		$.each(data.response.venues, function(i,venues){
+			content = '<p>' + venues.name + '</p>';
+			$(content).appendTo("#names");
+		});
+	}).fail(function(jqxhr, textStatus, error){
+		alert('Fail to connect to Foursquare: ' + textStatus + ' ' + jqxhr.status + ' ' + error);
+	}
+	);
+
+
