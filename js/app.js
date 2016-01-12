@@ -148,8 +148,9 @@ $.getJSON(foursquareUrl)
 	.done(function(data){
 		$.each(data.response.venues, function(i,venues){
 			// Change this to push new elements to locationsModel
-			content = '<p>' + venues.name + '</p>';
-			$(content).appendTo("#names");
+			// content = '<p>' + venues.name + '</p>';
+			// $(content).appendTo("#names");
+			locationsModel.push({name: venues.name, lat: String(venues.lat), lng: String(venues.lng), description: 'A Foursquare search result'});
 		});
 	}).fail(function(jqxhr, textStatus, error){
 		alert('Fail to connect to Foursquare: ' + textStatus + ' ' + jqxhr.status + ' ' + error);
