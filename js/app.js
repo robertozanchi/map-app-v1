@@ -1,6 +1,17 @@
 var markersArray = []; // Store all the markers
 var map;
 var infoWindow;
+var foursquareUrl;
+var CLIENT_ID = 'SKBOEODGEQYE2XC45C10DPD11GFYH2AZXNXBSJCQMYHAJZBL'; // Client id for connecting Foursquare API
+var CLIENT_SECRET = 'LFIXWJ0XVTJHZVER3CWVZWK2MJSICM342AEXV3NANQIEYWLD'; // Client secret for connecting Foursquare API
+var foursquareLocation = '40.8,-74';
+var foursquareQuery = 'coffee';
+var foursquareQueryLimit = '10';
+var foursquareUrl = 'https://api.foursquare.com/v2/venues/search?client_id=' + // Base url for connecting Foursquare API
+												CLIENT_ID + '&client_secret=' + CLIENT_SECRET +
+												'&v=20140806&ll=' + foursquareLocation +'&query=' + foursquareQuery + '&limit=' + foursquareQueryLimit;
+
+// https://api.foursquare.com/v2/venues/search?client_id=SKBOEODGEQYE2XC45C10DPD11GFYH2AZXNXBSJCQMYHAJZBL&client_secret=LFIXWJ0XVTJHZVER3CWVZWK2MJSICM342AEXV3NANQIEYWLD&v=20140806&ll=40.7,-74&query=coffee&limit=10
 
 // Model: hard coded location data
 var locationsModel = [
@@ -131,3 +142,13 @@ var ViewModel = function() {
 };
 
 ko.applyBindings(new ViewModel());
+
+// <script>
+$.getJSON(foursquareUrl,
+    function(data) {
+        $.each(data.response.venues, function(i,venues){
+            content = '<p>' + venues.name + '</p>';
+            $(content).appendTo("#names");
+       });
+});
+// </script>
