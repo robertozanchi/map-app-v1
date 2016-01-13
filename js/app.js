@@ -116,8 +116,22 @@ var ViewModel = function() {
 		self.locationsArray.push(new LocationName(locationItem));
 	});
 
+	// Add API locations to locationsArray observable array
+	self.getLocations = ko.computed(function() {
+    	// foursquare api requests 
+		$.getJSON(foursquareUrl)
+		.done(function(data){
+			$.each(data.response.venues, function(i,venues){
+				self.locationsArray.push({name: venues.name, lat: String(venues.location.lat), lng: String(venues.location.lng), description: 'A Foursquare search result'});
+		});
+	})
+		.fail(function(jqxhr, textStatus, error){
+			alert('Fail to connect to Foursquare: ' + textStatus + ' ' + jqxhr.status + ' ' + error);
+		});
+	})
+
 	// Click a place on the list, show marker and open infoWindow on the map
-	this.setLoc = function(clickedLocation) {
+	self.setLoc = function(clickedLocation) {
 		var markerReference;
 		for(var k=0; k<locationsModel.length; k++) {
 			if(locationsModel[k].name == clickedLocation.name) {
@@ -141,26 +155,3 @@ var ViewModel = function() {
 };
 
 ko.applyBindings(new ViewModel());
-
-// Foursquare query with error handling
-$.getJSON(foursquareUrl)
-	.done(function(data){
-		$.each(data.response.venues, function(i,venues){
-			locationsModel.push({name: venues.name, lat: String(venues.location.lat), lng: String(venues.location.lng), description: 'A Foursquare search result'});
-		LoadMap();
-		});
-	}).fail(function(jqxhr, textStatus, error){
-		alert('Fail to connect to Foursquare: ' + textStatus + ' ' + jqxhr.status + ' ' + error);
-	}
-	);
-
-// // Foursquare query with error handling
-// $.getJSON(foursquareUrl)
-// 	.done(function(data){
-// 		$.each(data.response.venues, function(i,venues){
-// 			locationsModel.push({name: venues.name, lat: String(venues.location.lat), lng: String(venues.location.lng), description: 'A Foursquare search result'});
-// 		});
-// 	}).fail(function(jqxhr, textStatus, error){
-// 		alert('Fail to connect to Foursquare: ' + textStatus + ' ' + jqxhr.status + ' ' + error);
-// 	}
-// 	);
