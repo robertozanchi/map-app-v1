@@ -43,7 +43,7 @@ window.onload = function () {
 function LoadMap() {
 	var mapOptions = {
 		center: new google.maps.LatLng(40.767513, -73.985109),
-		zoom: 14,
+		zoom: 13,
 		mapTypeId: google.maps.MapTypeId.ROADMAP
 	};
 
@@ -142,25 +142,25 @@ var ViewModel = function() {
 
 ko.applyBindings(new ViewModel());
 
-// Put into a function!
 // Foursquare query with error handling
 $.getJSON(foursquareUrl)
 	.done(function(data){
 		$.each(data.response.venues, function(i,venues){
-			// Change this to push new elements to locationsModel
-			// content = '<p>' + venues.name + '</p>';
-			// $(content).appendTo("#names");
 			locationsModel.push({name: venues.name, lat: String(venues.location.lat), lng: String(venues.location.lng), description: 'A Foursquare search result'});
+		LoadMap();
 		});
 	}).fail(function(jqxhr, textStatus, error){
 		alert('Fail to connect to Foursquare: ' + textStatus + ' ' + jqxhr.status + ' ' + error);
 	}
 	);
 
-// var alerts = [ 
-//     {num : 1, app:'helloworld',message:'message'},
-//     {num : 2, app:'helloagain',message:'another message'} 
-// ]
-// And then to add one, just use push:
-
-// alerts.push({num : 3, app:'helloagain_again',message:'yet another message'});
+// // Foursquare query with error handling
+// $.getJSON(foursquareUrl)
+// 	.done(function(data){
+// 		$.each(data.response.venues, function(i,venues){
+// 			locationsModel.push({name: venues.name, lat: String(venues.location.lat), lng: String(venues.location.lng), description: 'A Foursquare search result'});
+// 		});
+// 	}).fail(function(jqxhr, textStatus, error){
+// 		alert('Fail to connect to Foursquare: ' + textStatus + ' ' + jqxhr.status + ' ' + error);
+// 	}
+// 	);
