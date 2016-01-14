@@ -12,7 +12,7 @@ var foursquareQueryLimit = '5';
 var foursquareUrl = 'https://api.foursquare.com/v2/venues/search?client_id=' + // Base url for connecting Foursquare API
 												CLIENT_ID + '&client_secret=' + CLIENT_SECRET +
 												'&v=20140806&ll=' + foursquareLocation +'&query=' + foursquareQuery + '&limit=' + foursquareQueryLimit;
-
+var foursquareLocations = [];
 // https://api.foursquare.com/v2/venues/search?client_id=SKBOEODGEQYE2XC45C10DPD11GFYH2AZXNXBSJCQMYHAJZBL&client_secret=LFIXWJ0XVTJHZVER3CWVZWK2MJSICM342AEXV3NANQIEYWLD&v=20140806&ll=40.7,-74&query=coffee&limit=10
 
 // Model: hard coded location data
@@ -37,8 +37,22 @@ var locationsModel = [
 	}
 ];
 
+function AddAPIdata() {
+	$.getJSON(foursquareUrl)
+	.done(function(data){
+		$.each(data.response.venues, function(i,venues){
+			locationsModel.push({name: venues.name, lat: String(venues.location.lat), lng: String(venues.location.lng), description: 'A Foursquare search result'});
+	});
+	})
+	.fail(function(jqxhr, textStatus, error){
+		alert('Fail to connect to Foursquare: ' + textStatus + ' ' + jqxhr.status + ' ' + error);
+	});
+
+};
+
 // Load Google map asynchronously
 window.onload = function () {
+	AddAPIdata();
 	LoadMap();
 }
 
@@ -91,9 +105,9 @@ function toggleBounce(marker) {
 		function stopBounce(){
 		marker.setAnimation(null);
 		marker.setIcon(redPin);
-					}
-				}
-			};
+		}
+	}
+};
 
 // Extracts location names from model
 var LocationName = function(data) {
@@ -104,30 +118,24 @@ var LocationName = function(data) {
 var ViewModel = function() {
 	var self = this;
 
-	// Array of names of all locations
-	self.locationsArray = ko.observableArray([]);
-	locationsModel.forEach(function(locationItem){
-		self.locationsArray.push(new LocationName(locationItem));
-	});
-
 	// Add API locations to locationsArray observable array
-	self.getLocations = ko.computed(function() {
+	// self.getLocations = ko.computed(function() {
     	// foursquare api requests 
-		$.getJSON(foursquareUrl)
-		.done(function(data){
-			$.each(data.response.venues, function(i,venues){
-				self.locationsArray.push({name: venues.name, lat: String(venues.location.lat), lng: String(venues.location.lng), description: 'A Foursquare search result'});
-		});
-	})
-		.fail(function(jqxhr, textStatus, error){
-			alert('Fail to connect to Foursquare: ' + textStatus + ' ' + jqxhr.status + ' ' + error);
-		});
-	})
+	// $.getJSON(foursquareUrl)
+	// .done(function(data){
+	// 	$.each(data.response.venues, function(i,venues){
+	// 		locationsModel.push({name: venues.name, lat: String(venues.location.lat), lng: String(venues.location.lng), description: 'A Foursquare search result'});
+	// });
+	// })
+	// .fail(function(jqxhr, textStatus, error){
+	// 	alert('Fail to connect to Foursquare: ' + textStatus + ' ' + jqxhr.status + ' ' + error);
+	// });
+	// })
 
 	// Click a place on the list, show marker and open infoWindow on the map
 	self.setLoc = function(clickedLocation) {
 		var markerReference;
-		for(var k=0; k<locationsModel.length; k++) {
+		for(var k = 0; k < locationsModel.length; k++) {
 			if(locationsModel[k].name == clickedLocation.name) {
 				markerReference = markersArray[k];
 				toggleBounce(markerReference);
