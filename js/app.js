@@ -1,6 +1,8 @@
 var markersArray = []; // Store all the markers
 var map;
 var infoWindow;
+var redPin = 'http://maps.google.com/mapfiles/ms/icons/red-dot.png'; // Red marker
+var greenPin = 'http://maps.google.com/mapfiles/ms/icons/green-dot.png'; // Green marker
 var foursquareUrl;
 var CLIENT_ID = 'SKBOEODGEQYE2XC45C10DPD11GFYH2AZXNXBSJCQMYHAJZBL'; // Client id for connecting Foursquare API
 var CLIENT_SECRET = 'LFIXWJ0XVTJHZVER3CWVZWK2MJSICM342AEXV3NANQIEYWLD'; // Client secret for connecting Foursquare API
@@ -59,7 +61,8 @@ function LoadMap() {
 			position: myLatlng,
 			map: map,
 			title: data.title,
-			animation: google.maps.Animation.DROP
+			animation: google.maps.Animation.DROP,
+			icon: redPin
 		});
 		markersArray.push(marker);
 
@@ -71,18 +74,20 @@ function LoadMap() {
 			infoWindow.setContent("<b>" + data.name + "</b><br>" + "<div style = 'width:200px;min-height:60px'>" + data.description + "</div>");
 			infoWindow.open(map, marker);
 			toggleBounce();
-			// marker.setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png')
 
 			function toggleBounce() {
 				if (marker.getAnimation() !== null) {
 					marker.setAnimation(null);
 				} else {
 					marker.setAnimation(google.maps.Animation.BOUNCE);
+					marker.setIcon(greenPin);
 					setTimeout(stopBounce, 1400);
 					function stopBounce(){
 						marker.setAnimation(null);
-					}
+						marker.setIcon(redPin);
+					} 
 				}
+
 			};
 			});
 		})(marker, data);
@@ -94,9 +99,11 @@ function toggleBounce(marker) {
 		marker.setAnimation(null);
 	} else {
 		marker.setAnimation(google.maps.Animation.BOUNCE);
+		marker.setIcon(greenPin);
 		setTimeout(stopBounce, 1400);
 		function stopBounce(){
 		marker.setAnimation(null);
+		marker.setIcon(redPin);
 					}
 				}
 			};
