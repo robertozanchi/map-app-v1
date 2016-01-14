@@ -70,30 +70,17 @@ function LoadMap() {
 		(function (marker, data) {
 
 			google.maps.event.addListener(marker, "click", function (e) {
-			//Wrap the content inside an HTML DIV in order to set height and width of InfoWindow.
-			infoWindow.setContent("<b>" + data.name + "</b><br>" + "<div style = 'width:200px;min-height:60px'>" + data.description + "</div>");
-			infoWindow.open(map, marker);
-			toggleBounce();
-
-			function toggleBounce() {
-				if (marker.getAnimation() !== null) {
-					marker.setAnimation(null);
-				} else {
-					marker.setAnimation(google.maps.Animation.BOUNCE);
-					marker.setIcon(greenPin);
-					setTimeout(stopBounce, 1400);
-					function stopBounce(){
-						marker.setAnimation(null);
-						marker.setIcon(redPin);
-					} 
-				}
-
-			};
+				//Wrap the content inside an HTML DIV in order to set height and width of InfoWindow.
+				infoWindow.setContent("<b>" + data.name + "</b><br>" + "<div style = 'width:200px;min-height:60px'>" + data.description + "</div>");
+				infoWindow.open(map, marker);
+				// Animates the marker
+				toggleBounce(marker);
 			});
 		})(marker, data);
 	}
 }
 
+// Animates a marker once it is clicked
 function toggleBounce(marker) {
 	if (marker.getAnimation() !== null) {
 		marker.setAnimation(null);
