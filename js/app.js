@@ -86,13 +86,32 @@ function LoadMap() {
 
 			google.maps.event.addListener(marker, "click", function (e) {
 				//Wrap the content inside an HTML DIV in order to set height and width of InfoWindow.
-				infoWindow.setContent("<b>" + data.name + "</b><br>" + "<div style = 'width:200px;min-height:60px'>" + data.description + "</div>");
+				infoWindow.setContent("<b>" + data.name + "</b><br>" + "<div style = 'width:200px;min-height:60px'>" + data.description + " " + String(getApi(data.name)) + "</div>");
 				infoWindow.open(map, marker);
 				// Animates the marker
 				toggleBounce(marker);
 			});
 		})(marker, data);
 	}
+}
+
+function getApi(place) {
+	var wikiUrl = 'http://en.wikipedia.org/w/api.php?action=opensearch&search=' + place + '&format=json&callback=wikiCallback';
+    // var wikiRequestTimeout = setTimeout(function() {
+                //     $windowContent.text("failed to get wikipedia resources");
+                // }, 8000);
+    $.ajax({
+    	url: wikiUrl,
+    	dataType: "jsonp",
+        jsonp: "callback",
+        success: function(response) {
+        var articleList = response[1];
+        var articleStr;
+        articleStr = articleList[0];
+        return articleStr[2][0];
+            clearTimeout(wikiRequestTimeout);
+        }
+    });
 }
 
 // Animates a marker once it is clicked
