@@ -51,13 +51,7 @@ var locationsModel = [
 	}
 ];
 
-// Load Google map asynchronously
-window.onload = function () {
-	// AddAPIdata();
-	LoadMap();
-};
-
-function LoadMap() {
+function loadMap() {
 	var mapOptions = {
 		center: new google.maps.LatLng(40.767513, -73.985109),
 		zoom: 14,
