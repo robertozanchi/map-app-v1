@@ -20,10 +20,10 @@ var $nytElem = $('#nytimes-articles');
 // Model: hard coded location data
 var locationsModel = [
 	{
-	"name": 'Totto Ramen',
-	"lat": '40.764777',
-	"lng": '-73.987641',
-	"description": 'Bustling Japanese noodle specialist with sit-down dining not far from its original storefront.'
+	"name": 'Central Park',
+	"lat": '40.769297',
+	"lng": '-73.977650',
+	"description": 'Seasonal outdoor venue presenting a range of free & ticketed performances in multiple music genres.'
 	},
 	{
 	"name": 'Lincoln Center for the Performing Arts',
@@ -36,21 +36,20 @@ var locationsModel = [
 	"lat": '40.7528',
 	"lng": '-73.9765',
 	"description": 'Railroad terminal at 42nd Street and Park Avenue in Midtown Manhattan.'
+	},
+	{
+	"name": "Hell's Kitchen",
+	"lat": '40.763795',
+	"lng": '-73.992264',
+	"description": "Hell's Kitchen is a neighborhood of Manhattan in New York City, between 34th Street in the south, 59th Street in the north, Eighth Avenue in the east, and the Hudson River to the west."
+	},
+		{
+	"name": 'Times Square',
+	"lat": '40.759106',
+	"lng": '-73.985163',
+	"description": 'Bustling destination in the heart of the Theater District known for bright lights, shopping & shows.'
 	}
 ];
-
-// function AddAPIdata() {
-// 	$.getJSON(foursquareUrl)
-// 	.done(function(data){
-// 		$.each(data.response.venues, function(i,venues){
-// 			locationsModel.push({name: venues.name, lat: String(venues.location.lat), lng: String(venues.location.lng), description: 'A Foursquare search result'});
-// 	});
-// 	})
-// 	.fail(function(jqxhr, textStatus, error){
-// 		alert('Fail to connect to Foursquare: ' + textStatus + ' ' + jqxhr.status + ' ' + error);
-// 	});
-
-// };
 
 // Load Google map asynchronously
 window.onload = function () {
@@ -61,7 +60,7 @@ window.onload = function () {
 function LoadMap() {
 	var mapOptions = {
 		center: new google.maps.LatLng(40.767513, -73.985109),
-		zoom: 13,
+		zoom: 14,
 		mapTypeId: google.maps.MapTypeId.ROADMAP
 	};
 
@@ -125,12 +124,12 @@ var ViewModel = function() {
 	// Add API locations to locationsArray observable array
 	// self.getLocations = ko.computed(function() {
     	// foursquare api requests 
-	$.getJSON(foursquareUrl)
-	.done(function(data){
-		$.each(data.response.venues, function(i,venues){
-			self.points().push({name: venues.name, lat: String(venues.location.lat), lng: String(venues.location.lng), description: 'A Foursquare search result'});
-	});
-	})
+	// $.getJSON(foursquareUrl)
+	// .done(function(data){
+	// 	$.each(data.response.venues, function(i,venues){
+	// 		self.points().push({name: venues.name, lat: String(venues.location.lat), lng: String(venues.location.lng), description: 'A Foursquare search result'});
+	// });
+	// })
 	// .fail(function(jqxhr, textStatus, error){
 	// 	alert('Fail to connect to Foursquare: ' + textStatus + ' ' + jqxhr.status + ' ' + error);
 	// });
