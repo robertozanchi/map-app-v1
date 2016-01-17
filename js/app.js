@@ -13,6 +13,8 @@ var foursquareUrl = 'https://api.foursquare.com/v2/venues/search?client_id=' + /
 												CLIENT_ID + '&client_secret=' + CLIENT_SECRET +
 												'&v=20140806&ll=' + foursquareLocation +'&query=' + foursquareQuery + '&limit=' + foursquareQueryLimit;
 var foursquareLocations = [];
+var $nytHeaderElem = $('#nytimes-header');
+var $nytElem = $('#nytimes-articles');
 // https://api.foursquare.com/v2/venues/search?client_id=SKBOEODGEQYE2XC45C10DPD11GFYH2AZXNXBSJCQMYHAJZBL&client_secret=LFIXWJ0XVTJHZVER3CWVZWK2MJSICM342AEXV3NANQIEYWLD&v=20140806&ll=40.7,-74&query=coffee&limit=10
 
 // Model: hard coded location data
@@ -37,22 +39,22 @@ var locationsModel = [
 	}
 ];
 
-function AddAPIdata() {
-	$.getJSON(foursquareUrl)
-	.done(function(data){
-		$.each(data.response.venues, function(i,venues){
-			locationsModel.push({name: venues.name, lat: String(venues.location.lat), lng: String(venues.location.lng), description: 'A Foursquare search result'});
-	});
-	})
-	.fail(function(jqxhr, textStatus, error){
-		alert('Fail to connect to Foursquare: ' + textStatus + ' ' + jqxhr.status + ' ' + error);
-	});
+// function AddAPIdata() {
+// 	$.getJSON(foursquareUrl)
+// 	.done(function(data){
+// 		$.each(data.response.venues, function(i,venues){
+// 			locationsModel.push({name: venues.name, lat: String(venues.location.lat), lng: String(venues.location.lng), description: 'A Foursquare search result'});
+// 	});
+// 	})
+// 	.fail(function(jqxhr, textStatus, error){
+// 		alert('Fail to connect to Foursquare: ' + textStatus + ' ' + jqxhr.status + ' ' + error);
+// 	});
 
-};
+// };
 
 // Load Google map asynchronously
 window.onload = function () {
-	AddAPIdata();
+	// AddAPIdata();
 	LoadMap();
 }
 
@@ -118,15 +120,17 @@ var LocationName = function(data) {
 var ViewModel = function() {
 	var self = this;
 
+	self.points = ko.observableArray(locationsModel);
+
 	// Add API locations to locationsArray observable array
 	// self.getLocations = ko.computed(function() {
     	// foursquare api requests 
-	// $.getJSON(foursquareUrl)
-	// .done(function(data){
-	// 	$.each(data.response.venues, function(i,venues){
-	// 		locationsModel.push({name: venues.name, lat: String(venues.location.lat), lng: String(venues.location.lng), description: 'A Foursquare search result'});
-	// });
-	// })
+	$.getJSON(foursquareUrl)
+	.done(function(data){
+		$.each(data.response.venues, function(i,venues){
+			self.points().push({name: venues.name, lat: String(venues.location.lat), lng: String(venues.location.lng), description: 'A Foursquare search result'});
+	});
+	})
 	// .fail(function(jqxhr, textStatus, error){
 	// 	alert('Fail to connect to Foursquare: ' + textStatus + ' ' + jqxhr.status + ' ' + error);
 	// });
@@ -146,14 +150,30 @@ var ViewModel = function() {
 	};
 
 	// Search functionality on location names
-	self.points = ko.observableArray(locationsModel);
 	self.query = ko.observable('');
 
 	self.search = ko.computed(function(){
 		return ko.utils.arrayFilter(self.points(), function(point){
 			return point.name.toLowerCase().indexOf(self.query().toLowerCase()) >= 0;
-    });
-  });
+    	});
+  	});
+
+	// New York Times articles
+	self.getArticles = ko.computed(function() {
+
+		$nytElem.text("");
+		var nytimesUrl = 'http://api.nytimes.com/svc/search/v2/articlesearch.json?q=' + 'New York City' + '&sort=newest&api-key=7ea908fcd81e9b8656eef08e2c01ffd3:17:60789344';
+	
+		$.getJSON(nytimesUrl, function(data) {
+			articles = data.response.docs;
+			for (var i = 0; i < articles.length; i++) {
+				var article = articles[i];
+				$nytElem.append('<li class="article">'+'<a href="'+ article.web_url +'">'+ article.headline.main +'</a>'+'<p>'+ article.snippet +'</p>'+'</li>');
+			};
+		}).error(function(e) {
+			$nytHeaderElem.text('New York Time Articles Could Not Be Loaded');
+		})
+	})
 };
 
 ko.applyBindings(new ViewModel());
